@@ -29,9 +29,8 @@ def main():
     speed_cars_left_lane = 0.0
     speed_cars_right_lane = 0.0
 
-    lateral_car_1 = robot.getFromDef('lateral_car_1')
-    lateral_car_2 = robot.getFromDef('lateral_car_2')
-    
+
+    lateral_car_1 = robot.getFromDef('lateral_car_1') #Vehículo lateral en dirección opuesta
     cars = [robot.getFromDef('vehicle_1'), robot.getFromDef('vehicle_2'),
 robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef('vehicle_5'), robot.getFromDef('vehicle_6'), robot.getFromDef('vehicle_7'), robot.getFromDef('vehicle_8'), robot.getFromDef('vehicle_9'), robot.getFromDef('vehicle_10')]
 
@@ -49,9 +48,8 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
               tf[i].setSFVec3f(values)
               car.resetPhysics()   
         i = i + 1 
-
     bmw  = robot.getFromDef('BMW_X5')  
-
+    lateral_car_1.resetPhysics()   
     #linear_velocity_North = cars[0].getField("translation")
     start = False
     rospy.init_node("supervisor_node")
@@ -80,8 +78,7 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
     print("Supervisor.->Start signal received")    
         
     while robot.step(TIME_STEP) != -1 and not rospy.is_shutdown():
-        lateral_car_1.setVelocity([0,-5,0, 0,0,0])
-        lateral_car_2.setVelocity([0,-6,0, 0,0,0])
+        lateral_car_1.setVelocity([-speed_cars_left_lane,0,0, 0,0,0])
         i = 0 
         for car in cars:
             if car is not None:        
