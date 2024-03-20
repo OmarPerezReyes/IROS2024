@@ -194,11 +194,18 @@ def callback_car_10_pos(msg):
 
     car_10_pos.x = msg.x
     car_10_pos.y = msg.y
-    car_10_pos.theta = msg.theta                        
+    car_10_pos.theta = msg.theta  
+    
+def callback_lateral_car_pose(msg):
+    global lateral_car_pose
+
+    lateral_car_pose.x = msg.x
+    lateral_car_pose.y = msg.y
+    lateral_car_pose.theta = msg.theta                        
                
 def main():
     global cruise_enable
-    global accel_x, accel_y, accel_z, accel_diff, action, change_lane_finished, curr_time, curr_lane, lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, follow_enable, free_east, free_north, free_north_east, free_north_west, free_south_east, free_south_west, free_west, distance_to_north, pass_finished, sdc_curr_pos, speed, start_change_lane_on_left, start_change_lane_on_right, steering, success, goal_reached, car_1_pos, car_2_pos, car_3_pos, car_4_pos, car_5_pos, car_6_pos, car_7_pos, car_8_pos, car_9_pos, car_10_pos
+    global accel_x, accel_y, accel_z, accel_diff, action, change_lane_finished, curr_time, curr_lane, lane_rho_l, lane_theta_l, lane_rho_r, lane_theta_r, follow_enable, free_east, free_north, free_north_east, free_north_west, free_south_east, free_south_west, free_west, distance_to_north, pass_finished, sdc_curr_pos, speed, start_change_lane_on_left, start_change_lane_on_right, steering, success, goal_reached, car_1_pos, car_2_pos, car_3_pos, car_4_pos, car_5_pos, car_6_pos, car_7_pos, car_8_pos, car_9_pos, car_10_pos, lateral_car_pose
     
     sdc_curr_pos = Pose2D()   
     car_1_pos = Pose2D() 
@@ -211,6 +218,7 @@ def main():
     car_8_pos = Pose2D() 
     car_9_pos = Pose2D() 
     car_10_pos = Pose2D()
+    lateral_car_pose = Pose2D()
     
 
     # 31 variables
@@ -255,6 +263,7 @@ def main():
     car_8_pos.x = car_8_pos.y = car_8_pos.theta = 0.0
     car_9_pos.x = car_9_pos.y = car_9_pos.theta = 0.0
     car_10_pos.x = car_10_pos.y = car_10_pos.theta = 0.0    
+    lateral_car_pose.x = lateral_car_pose.y = lateral_car_pose.theta = 0.0
                 
     num_trials_file = ".trial_number.data"
 
@@ -300,7 +309,8 @@ def main():
     rospy.Subscriber("/car_8_pose", Pose2D, callback_car_8_pos)
     rospy.Subscriber("/car_9_pose", Pose2D, callback_car_9_pos)
     rospy.Subscriber("/car_10_pose", Pose2D, callback_car_10_pos)    
-   
+    rospy.Subscriber("/lateral_car_pose", Pose2D, callback_lateral_car_pose)   
+    
     # Lectura del número de repetición
     print ("Reading the number of the trial...", flush = True, end="")
     write_header_csv = False
@@ -340,7 +350,7 @@ def main():
     while not rospy.is_shutdown():
     
         if write_header_csv == True:
-           output = "trial_num," + "iteration," + "accel_x," + "accel_y," + "accel_z," + "accel_diff," + "action," + "change_lane_finished," + "curr_time," + "curr_lane," + "lane_rho_l," + "lane_theta_l," + "lane_rho_r," + "lane_theta_r," + "follow_enable," + "free_east," + "free_north," + "free_north_east," + "free_north_west," + "free_south_east," + "free_south_west," + "free_west," + "distance_to_north," + "pass_finished," + "sdc_curr_pos.x," + "sdc_curr_pos.y," + "sdc_curr_pos.theta," + "speed," + "start_change_lane_on_left," + "start_change_lane_on_right," + "steering," + "success," + "goal_reached,"+ "car_1_pose.x," + "car_1_pose.y," + "car_2_pose.x," + "car_2_pose.y," + "car_3_pose.x," + "car_3_pose.y," +  "car_4_pose.x," + "car_4_pose.y," +  "car_5_pose.x," + "car_5_pose.y," + "car_6_pose.x," + "car_6_pose.y," + "car_7_pose.x," + "car_7_pose.y," + "car_8_pose.x," + "car_8_pose.y," + "car_9_pose.x," + "car_9_pose.y," + "car_10_pose.x," + "car_10_pose.y" +  "\n"
+           output = "trial_num," + "iteration," + "accel_x," + "accel_y," + "accel_z," + "accel_diff," + "action," + "change_lane_finished," + "curr_time," + "curr_lane," + "lane_rho_l," + "lane_theta_l," + "lane_rho_r," + "lane_theta_r," + "follow_enable," + "free_east," + "free_north," + "free_north_east," + "free_north_west," + "free_south_east," + "free_south_west," + "free_west," + "distance_to_north," + "pass_finished," + "sdc_curr_pos.x," + "sdc_curr_pos.y," + "sdc_curr_pos.theta," + "speed," + "start_change_lane_on_left," + "start_change_lane_on_right," + "steering," + "success," + "goal_reached,"+ "car_1_pose.x," + "car_1_pose.y," + "car_2_pose.x," + "car_2_pose.y," + "car_3_pose.x," + "car_3_pose.y," +  "car_4_pose.x," + "car_4_pose.y," +  "car_5_pose.x," + "car_5_pose.y," + "car_6_pose.x," + "car_6_pose.y," + "car_7_pose.x," + "car_7_pose.y," + "car_8_pose.x," + "car_8_pose.y," + "car_9_pose.x," + "car_9_pose.y," + "car_10_pose.x," + "car_10_pose.y," + "lateral_car_pose.x," + "lateral_car_pose.y" +  "\n"
            
            write_header_csv = False  # Write the header of the csv only once   
 
@@ -348,7 +358,7 @@ def main():
     
         now = rospy.get_time()
 
-        output = str(trial_number) + "," + str(iteration) + "," + str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(action) + "," + str(change_lane_finished) + "," + str(curr_time) + ","  +  str(curr_lane) + "," + str(lane_rho_l) + "," + str(lane_theta_l) + "," +  str(lane_rho_r) + "," + str(lane_theta_r) + "," + str(follow_enable) + "," +  str(free_east) + "," + str(free_north) + "," + str(free_north_east) + "," + str(free_north_west) + "," + str(free_south_east) + "," +  str(free_south_west) + "," + str(free_west) + "," + str(distance_to_north) + "," + str(pass_finished) + "," + str(sdc_curr_pos.x) + "," +  str(sdc_curr_pos.y) + "," + str(sdc_curr_pos.theta) + "," + str(speed) + ","  +  str(start_change_lane_on_left) + "," + str(start_change_lane_on_right) + "," +  str(steering) + "," + str(success) + "," + str(goal_reached) + "," + str(car_1_pos.x) + "," + str(car_1_pos.y) + "," + str(car_2_pos.x) + ","  + str(car_2_pos.y) + ","  + str(car_3_pos.x) + "," + str(car_3_pos.y) + "," + str(car_4_pos.x) + "," + str(car_4_pos.y) + "," + str(car_5_pos.x) + "," + str(car_5_pos.y) + "," + str(car_6_pos.x) + "," + str(car_6_pos.y) + "," + str(car_7_pos.x) + ","  + str(car_7_pos.y) + ","  + str(car_8_pos.x) + "," + str(car_8_pos.y) + "," + str(car_9_pos.x) + "," + str(car_9_pos.y) + "," + str(car_10_pos.x) + "," + str(car_10_pos.y) +  "\n"
+        output = str(trial_number) + "," + str(iteration) + "," + str(accel_x) + "," + str(accel_y) + "," + str(accel_z) + "," + str(accel_diff) + "," + str(action) + "," + str(change_lane_finished) + "," + str(curr_time) + ","  +  str(curr_lane) + "," + str(lane_rho_l) + "," + str(lane_theta_l) + "," +  str(lane_rho_r) + "," + str(lane_theta_r) + "," + str(follow_enable) + "," +  str(free_east) + "," + str(free_north) + "," + str(free_north_east) + "," + str(free_north_west) + "," + str(free_south_east) + "," +  str(free_south_west) + "," + str(free_west) + "," + str(distance_to_north) + "," + str(pass_finished) + "," + str(sdc_curr_pos.x) + "," +  str(sdc_curr_pos.y) + "," + str(sdc_curr_pos.theta) + "," + str(speed) + ","  +  str(start_change_lane_on_left) + "," + str(start_change_lane_on_right) + "," +  str(steering) + "," + str(success) + "," + str(goal_reached) + "," + str(car_1_pos.x) + "," + str(car_1_pos.y) + "," + str(car_2_pos.x) + ","  + str(car_2_pos.y) + ","  + str(car_3_pos.x) + "," + str(car_3_pos.y) + "," + str(car_4_pos.x) + "," + str(car_4_pos.y) + "," + str(car_5_pos.x) + "," + str(car_5_pos.y) + "," + str(car_6_pos.x) + "," + str(car_6_pos.y) + "," + str(car_7_pos.x) + ","  + str(car_7_pos.y) + ","  + str(car_8_pos.x) + "," + str(car_8_pos.y) + "," + str(car_9_pos.x) + "," + str(car_9_pos.y) + "," + str(car_10_pos.x) + "," + str(car_10_pos.y) + "," + str(lateral_car_pose.x) + "," + str(lateral_car_pose.y) +  "\n"
                        
         f.write(output) 
         

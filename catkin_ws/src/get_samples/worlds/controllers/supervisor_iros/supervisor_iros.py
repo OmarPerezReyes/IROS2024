@@ -69,9 +69,11 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
     pub_car_8_pose  = rospy.Publisher("/car_8_pose", Pose2D, queue_size=1)
     pub_car_9_pose  = rospy.Publisher("/car_9_pose", Pose2D, queue_size=1)
     pub_car_10_pose  = rospy.Publisher("/car_10_pose", Pose2D, queue_size=1)
-
+    pub_lateral_car_pose  = rospy.Publisher("/lateral_car_pose", Pose2D, queue_size=1)
+    
     msg_bmw_pose = Pose2D()
     msg_car_pose = Pose2D()
+    msg_lateral_car_pose = Pose2D()
     
     print("Supervisor.->Waiting for start signal")
     rospy.wait_for_message("/policy_started", Empty, timeout=50000.0)
@@ -92,6 +94,8 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
                   car.setVelocity([speed_cars_left_lane,0,0, 0,0,0])
                else:    
                   car.setVelocity([speed_cars_right_lane,0,0, 0,0,0])
+                  
+               
                            
                if i == 0:
                   pub_car_1_pose.publish(msg_car_pose)  
@@ -123,6 +127,7 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
         #print("x:", msg_bmw_pose.x, "y:", msg_bmw_pose.y, "theta:", msg_bmw_pose.theta, flush = True)
         
         pub_bmw_pose.publish(msg_bmw_pose)
+        pub_lateral_car_pose.publish(msg_lateral_car_pose)
                           
         loop.sleep()
   
