@@ -50,6 +50,28 @@ robot.getFromDef('vehicle_3'), robot.getFromDef('vehicle_4'),  robot.getFromDef(
 
     bmw  = robot.getFromDef('BMW_X5')  
 
+    if lateral_car is not None:
+        lateral_tf = lateral_car.getField("translation")
+        lateral_values = lateral_tf.getSFVec3f()
+        
+        random_x = np.random.uniform(-20, -10)  #rango deseado para y
+        lateral_values[1] = random_x
+        
+        # Actualizar la posición
+        lateral_tf.setSFVec3f(lateral_values)
+        lateral_car.resetPhysics()
+        
+    if bmw is not None:
+        bmw_tf = bmw.getField("translation")
+        bmw_values = bmw_tf.getSFVec3f()
+        
+        random_x = np.random.uniform(40, 50)  #rango deseado para X
+        bmw_values[0] = random_x
+        
+        # Actualizar la posición
+        bmw_tf.setSFVec3f(bmw_values)
+        bmw.resetPhysics()
+
     #linear_velocity_North = cars[0].getField("translation")
     start = False
     rospy.init_node("supervisor_node")

@@ -66,7 +66,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.2084195760142806 -0.1569067897140359 0.9653711926899741 4.028705773178639
+  fieldOfView 0.7
+  orientation -0.24007701177730112 -0.16692318225084168 0.956294766085925 3.9881456857686572
   position 115.13180887056889 64.34623668316294 51.05757749991739
   near 1
   follow "vehicle"
@@ -90,7 +91,7 @@ SpeedLimitPanel {
   ]
 }
 StraightRoadSegment {
-  translation 120 0 0.1
+  translation 120 0 0
   name "segment_2"
   length 200
   roadBoundingObject TRUE
@@ -121,9 +122,9 @@ DEF BMW_X5 BmwX5 {
   ]
 }
 StraightRoadSegment {
-  translation 10 0 0.1
+  translation 74.5 0 0
   name "segment_1"
-  length 110
+  length 45.5
   roadBoundingObject TRUE
   rightBorderBoundingObject TRUE
   leftBorderBoundingObject TRUE
@@ -193,7 +194,7 @@ HighwayPole {
   ]
 }
 DEF lateral_car LincolnMKZSimple {
-  translation 64.2623 -36.3994 0.78
+  translation 64.2623 -36.3994 0.279
   rotation 0 0 1 1.57
   name "lateral_car"
 }
@@ -202,16 +203,29 @@ Robot {
   supervisor TRUE
 }
 StraightRoadSegment {
-  translation 66 4 0
+  translation 66 8.5 0
   rotation 0 0 1 1.57
   numberOfForwardLanes 3
   length 40
   roadBoundingObject TRUE
 }
 StraightRoadSegment {
-  translation 66 -44 0
+  translation 66 -48.5 0
   rotation 0 0 1 1.57
   name "road(1)"
   length 40
   roadBoundingObject TRUE
+}
+RoadIntersection {
+  translation 66 0 0
+  rotation 0 0 1 0.785
+  boundingObject TRUE
+}
+StraightRoadSegment {
+  translation 10 0 0
+  name "road(2)"
+  length 47.5
+  roadBoundingObject TRUE
+  rightBorderBoundingObject TRUE
+  leftBorderBoundingObject TRUE
 }
